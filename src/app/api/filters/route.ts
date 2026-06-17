@@ -40,15 +40,20 @@ export async function GET(
     }
 
     const [filters]: any =
-      await db.query(
+  await db.query(
 
-        `SELECT * FROM filters
-         WHERE user_id = ?
-         ORDER BY id DESC`,
+    `SELECT
+        filters.*,
+        users.username AS user_name
+     FROM filters
+     LEFT JOIN users
+     ON filters.user_id = users.id
+     WHERE filters.user_id = ?
+     ORDER BY filters.id DESC`,
 
-        [user_id]
+    [user_id]
 
-      );
+  );
 
     return NextResponse.json({
 

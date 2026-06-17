@@ -111,7 +111,7 @@ export default function FilterTable({
 
             <th>Filter Name</th>
 
-            <th>User ID</th>
+            <th>User Name</th>
 
             <th>Created At</th>
 
@@ -137,13 +137,21 @@ export default function FilterTable({
                 </td>
 
                 <td>
-  {filter.user_id}
-</td>
+                  {filter.user_name}
+                </td>
 
                 <td>
-                  {new Date(
-                    filter.created_at
-                  ).toLocaleDateString()}
+                  {new Date(filter.created_at).toLocaleString(
+  "en-IN",
+  {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }
+)}
                 </td>
 
                 <td>

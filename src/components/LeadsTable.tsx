@@ -154,9 +154,17 @@ export default function LeadsTable({
               </td>
 
               <td>
-                {new Date(
-                  lead.updated_at
-                ).toLocaleString()}
+                {new Date(lead.updated_at).toLocaleString(
+  "en-IN",
+  {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }
+)}
               </td>
 
             </tr>
