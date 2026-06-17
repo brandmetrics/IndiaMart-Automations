@@ -102,6 +102,26 @@ export default function DashboardLayout({
   Dashboard
 </Link>
 
+{user?.role === "admin" && (
+
+  <Link
+    href="/dashboard/leads"
+    className="flex items-center gap-3"
+  >
+    <FaBriefcase />
+    Leads
+  </Link>
+
+)}
+
+ <Link
+  href="/dashboard/filters"
+  className="flex items-center gap-3"
+>
+  <FaFilter />
+  Filters
+</Link>
+
           {/* ADMIN ONLY */}
 
           {user?.role === "admin" && (
@@ -116,25 +136,6 @@ export default function DashboardLayout({
 
           )}
 
-          {user?.role === "admin" && (
-
-  <Link
-    href="/dashboard/leads"
-    className="flex items-center gap-3"
-  >
-    <FaBriefcase />
-    Leads
-  </Link>
-
-)}
-
-          <Link
-  href="/dashboard/filters"
-  className="flex items-center gap-3"
->
-  <FaFilter />
-  Filters
-</Link>
 
           {user?.role === "admin" && (
 
@@ -152,13 +153,13 @@ export default function DashboardLayout({
 
           {/* LOGOUT BUTTON */}
 
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 mt-10 bg-gray-100 text-black px-1 py-2 rounded-lg hover:bg-gray-300"
-          >
-            <FaSignOutAlt />
-            Logout
-          </button>
+         <button
+  onClick={handleLogout}
+  className="flex items-center gap-3"
+>
+  <FaSignOutAlt />
+  Logout
+</button>
 
         </div>
 

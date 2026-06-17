@@ -12,6 +12,11 @@ export async function GET(req: NextRequest) {
     const range =
   req.nextUrl.searchParams.get("range");
 
+  const status =
+  req.nextUrl.searchParams.get(
+    "status"
+  );
+console.log("STATUS =", status);
   let query =
     "SELECT * FROM leads";
 
@@ -64,6 +69,22 @@ else if (
     fromDate,
     toDate
   );
+}
+
+if (status === "yes") {
+
+  query +=
+    query.includes("WHERE")
+      ? " AND useful_lead_status = 1"
+      : " WHERE useful_lead_status = 1";
+}
+
+else if (status === "no") {
+
+  query +=
+    query.includes("WHERE")
+      ? " AND useful_lead_status = 0"
+      : " WHERE useful_lead_status = 0";
 }
 
   query +=

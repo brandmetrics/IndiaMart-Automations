@@ -11,7 +11,8 @@ export default function LeadsPage() {
     const [fromDate, setFromDate] = useState<Date | null>(null);
 const [toDate, setToDate] = useState<Date | null>(null);
 const [dateRange, setDateRange] = useState("all");
-
+const [leadStatus, setLeadStatus] =
+  useState("all");
 const fetchLeads = async () => {
 
   let url =
@@ -37,6 +38,12 @@ const fetchLeads = async () => {
       `&fromDate=${formattedFrom}&toDate=${formattedTo}`;
   }
 
+  if (leadStatus !== "all") {
+
+  url +=
+    `&status=${leadStatus}`;
+}
+
   const res =
     await fetch(url);
 
@@ -58,7 +65,7 @@ useEffect(() => {
 
   }
 
-}, [dateRange]);
+}, [dateRange, leadStatus]);
 
 useEffect(() => {
 
@@ -85,6 +92,26 @@ useEffect(() => {
       </h1>
 
       <div className="flex items-center gap-4 mb-4">
+
+<select
+  value={leadStatus}
+  onChange={(e) =>
+    setLeadStatus(e.target.value)
+  }
+  className="border p-2 rounded text-black"
+>
+  <option value="all">
+    All Leads
+  </option>
+
+  <option value="yes">
+    Useful Leads
+  </option>
+
+  <option value="no">
+    Not Useful Leads
+  </option>
+</select>
 
   <select
     value={dateRange}
@@ -159,6 +186,8 @@ useEffect(() => {
       setDateRange("all");
       setFromDate(null);
       setToDate(null);
+      setLeadStatus("all");
+setDateRange("all");
 
       fetch("/api/leads")
         .then(res => res.json())
