@@ -19,6 +19,7 @@ import {
   FaFilter,
   FaCog,
   FaSignOutAlt,
+  FaBriefcase
 } from "react-icons/fa";
 
 export default function DashboardLayout({
@@ -114,6 +115,18 @@ export default function DashboardLayout({
 </Link>
 
           )}
+
+          {user?.role === "admin" && (
+
+  <Link
+    href="/dashboard/leads"
+    className="flex items-center gap-3"
+  >
+    <FaBriefcase />
+    Leads
+  </Link>
+
+)}
 
           <Link
   href="/dashboard/filters"
