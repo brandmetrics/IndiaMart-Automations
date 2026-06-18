@@ -36,6 +36,8 @@ const [leadStatus, setLeadStatus] =
   useState("all");
   const [showMenu, setShowMenu] =
   useState(false);
+  const [searchTerm, setSearchTerm] =
+  useState("");
 
   const updateDateLabel = (
   range: string
@@ -207,6 +209,15 @@ useEffect(() => {
 
 }, [ranges]);
 
+const filteredLeads =
+  leads.filter((lead: any) =>
+    lead.name
+      .toLowerCase()
+      .includes(
+        searchTerm.toLowerCase()
+      )
+  );
+
   return (
 
     <div className="p-6">
@@ -224,7 +235,7 @@ useEffect(() => {
   onChange={(e) =>
     setLeadStatus(e.target.value)
   }
-  className="border p-2 rounded text-black"
+  className="border px-4 py-2 rounded-lg text-black bg-white min-w-[180px]"
 >
   <option value="all">
     All Leads
@@ -246,7 +257,7 @@ useEffect(() => {
     className="
       flex items-center gap-2
       border rounded-lg
-      px-4 py-2
+      px-3 py-2
       bg-white text-black
       min-w-[260px]
     "
@@ -362,7 +373,15 @@ useEffect(() => {
 }
 </div>
 
-
+<input
+  type="text"
+  placeholder="Search Lead"
+  value={searchTerm}
+  onChange={(e) =>
+    setSearchTerm(e.target.value)
+  }
+  className=" border rounded-lg px-4 py-2 text-black bg-white"
+/>
   <button
     onClick={() => {
 
@@ -391,7 +410,7 @@ useEffect(() => {
 </div>
 
       <LeadsTable
-        leads={leads}
+        leads={filteredLeads}
       />
 
     </div>

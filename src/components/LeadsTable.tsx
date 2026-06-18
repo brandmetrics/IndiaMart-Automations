@@ -87,6 +87,11 @@ export default function LeadsTable({
       <DataTable
         key={tableKey}
         className="display"
+         options={{
+    pageLength: 15,
+    lengthChange: false,
+    searching: false,
+  }}
       >
 
         <thead>
