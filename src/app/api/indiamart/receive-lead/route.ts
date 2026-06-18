@@ -49,6 +49,7 @@ INSERT INTO leads
   phone,
   query_message,
   useful_lead_status
+  
 )
 VALUES (?, ?, ?, ?, ?, ?)
 `,
@@ -59,6 +60,7 @@ VALUES (?, ?, ?, ?, ?, ?)
   body.phone,
   body.query_message,
   usefulLeadStatus
+  
 ]
 );
 console.log("After INSERT");

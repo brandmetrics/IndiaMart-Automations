@@ -2,37 +2,167 @@
 
 import { useEffect, useState } from "react";
 import LeadsTable from "@/components/LeadsTable";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
+import { FaCalendarAlt } from "react-icons/fa";
+
+import { DateRangePicker } from "react-date-range";
+
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 export default function LeadsPage() {
 
   const [leads, setLeads] =
     useState([]);
-    const [fromDate, setFromDate] = useState<Date | null>(null);
-const [toDate, setToDate] = useState<Date | null>(null);
+   const [ranges, setRanges] = useState<any>([
+  {
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  },
+]);
+
+const selectedRange = ranges[0];
+
+    
 const [dateRange, setDateRange] = useState("all");
+const today =
+  new Date()
+    .toLocaleDateString("en-GB")
+    .replace(/\//g, "-");
+
+const [dateLabel, setDateLabel] =
+  useState(`${today} - ${today}`);
 const [leadStatus, setLeadStatus] =
   useState("all");
+  const [showMenu, setShowMenu] =
+  useState(false);
+
+  const updateDateLabel = (
+  range: string
+) => {
+
+  const today = new Date();
+
+  if (range === "today") {
+
+    const d =
+      today
+        .toLocaleDateString("en-GB")
+        .replace(/\//g, "-");
+
+    setDateLabel(
+      `${d} - ${d}`
+    );
+  }
+
+  else if (
+    range === "yesterday"
+  ) {
+
+    const yesterday =
+      new Date();
+
+    yesterday.setDate(
+      yesterday.getDate() - 1
+    );
+
+    const d =
+      yesterday
+        .toLocaleDateString("en-GB")
+        .replace(/\//g, "-");
+
+    setDateLabel(
+      `${d} - ${d}`
+    );
+  }
+
+  else if (range === "7days") {
+
+  const today = new Date();
+
+  const last7Days = new Date();
+
+  last7Days.setDate(
+    today.getDate() - 6
+  );
+
+  const from =
+    last7Days
+      .toLocaleDateString("en-GB")
+      .replace(/\//g, "-");
+
+  const to =
+    today
+      .toLocaleDateString("en-GB")
+      .replace(/\//g, "-");
+
+  setDateLabel(
+    `${from} - ${to}`
+  );
+}
+
+else if (range === "30days") {
+
+  const today = new Date();
+
+  const last30Days = new Date();
+
+  last30Days.setDate(
+    today.getDate() - 29
+  );
+
+  const from =
+    last30Days
+      .toLocaleDateString("en-GB")
+      .replace(/\//g, "-");
+
+  const to =
+    today
+      .toLocaleDateString("en-GB")
+      .replace(/\//g, "-");
+
+  setDateLabel(
+    `${from} - ${to}`
+  );
+}
+
+  else if (
+    range === "custom"
+  ) {
+
+    const from =
+      selectedRange.startDate
+        .toLocaleDateString("en-GB")
+        .replace(/\//g, "-");
+
+    const to =
+      selectedRange.endDate
+        .toLocaleDateString("en-GB")
+        .replace(/\//g, "-");
+
+    setDateLabel(
+      `${from} - ${to}`
+    );
+  }
+
+};
+
 const fetchLeads = async () => {
 
   let url =
     `/api/leads?range=${dateRange}`;
 
-  if (
-    dateRange === "custom" &&
-    fromDate &&
-    toDate
-  ) {
+  if (dateRange === "custom") {
 
     const formattedFrom =
-      fromDate
-        .toISOString()
-        .split("T")[0];
+  selectedRange.startDate
+    .toISOString()
+    .split("T")[0];
 
-    const formattedTo =
-      toDate
-        .toISOString()
-        .split("T")[0];
+const formattedTo =
+  selectedRange.endDate
+    .toISOString()
+    .split("T")[0];
 
     url +=
       `&fromDate=${formattedFrom}&toDate=${formattedTo}`;
@@ -69,17 +199,13 @@ useEffect(() => {
 
 useEffect(() => {
 
-  if (
-    dateRange === "custom" &&
-    fromDate &&
-    toDate
-  ) {
+  if (dateRange === "custom") {
 
     fetchLeads();
 
   }
 
-}, [fromDate, toDate]);
+}, [ranges]);
 
   return (
 
@@ -113,82 +239,143 @@ useEffect(() => {
   </option>
 </select>
 
-  <select
-    value={dateRange}
-    onChange={(e) =>
-      setDateRange(e.target.value)
-    }
-    className="border p-2 rounded text-black"
+<div className="relative">
+
+  <button
+    onClick={() => setShowMenu(!showMenu)}
+    className="
+      flex items-center gap-2
+      border rounded-lg
+      px-4 py-2
+      bg-white text-black
+      min-w-[260px]
+    "
   >
-    <option value="all">
-      All Leads
-    </option>
+    <FaCalendarAlt />
 
-    <option value="today">
-      Today
-    </option>
+    <span>{dateLabel}</span>
 
-    <option value="yesterday">
-      Yesterday
-    </option>
+    <span className="ml-auto">▼</span>
+  </button>
 
-    <option value="7days">
-      Last 7 Days
-    </option>
+  {showMenu && (
 
-    <option value="30days">
-      Last 30 Days
-    </option>
+    <div
+      className="
+        absolute top-full mt-2 right-0
+        bg-white border rounded-lg
+        shadow-lg z-50
+        w-60
+      "
+    >
 
-    <option value="custom">
-      Custom Range
-    </option>
-  </select>
+      <div
+        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        onClick={() => {
+          setDateRange("today");
+          updateDateLabel("today");
+          setShowMenu(false);
+        }}
+      >
+        Today
+      </div>
 
-  {dateRange === "custom" && (
-    <>
-      <DatePicker
-        selected={fromDate}
-        onChange={(date: Date | null) =>
-          setFromDate(date)
-        }
-        placeholderText="From Date"
-        className="border p-2 rounded text-black"
-      />
+      <div
+        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        onClick={() => {
+          setDateRange("yesterday");
+          updateDateLabel("yesterday");
+          setShowMenu(false);
+        }}
+      >
+        Yesterday
+      </div>
 
-      <DatePicker
-        selected={toDate}
-        onChange={(date: Date | null) =>
-          setToDate(date)
-        }
-        placeholderText="To Date"
-        className="border p-2 rounded text-black"
-      />
-    </>
+      <div
+        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        onClick={() => {
+  setDateRange("7days");
+  updateDateLabel("7days");
+  setShowMenu(false);
+}}
+      >
+        Last 7 Days
+      </div>
+
+      <div
+        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        onClick={() => {
+  setDateRange("30days");
+  updateDateLabel("30days");
+  setShowMenu(false);
+}}
+      >
+        Last 30 Days
+      </div>
+
+      <div
+        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        onClick={() => {
+          setDateRange("custom");
+        }}
+      >
+        Custom Range
+      </div>
+
+    </div>
+
   )}
 
-  {/* {
+{
+  showMenu &&
   dateRange === "custom" && (
 
-    <button
-      onClick={fetchLeads}
-      className="bg-black text-white px-4 py-2 rounded"
-    >
-      Apply Filter
-    </button>
+    <div className="absolute top-full mt-2 right-64 z-50">
+
+      <DateRangePicker
+        ranges={ranges}
+        onChange={(item: any) => {
+
+          setRanges([
+            item.selection,
+          ]);
+
+          const from =
+            item.selection.startDate
+              .toLocaleDateString("en-GB")
+              .replace(/\//g, "-");
+
+          const to =
+            item.selection.endDate
+              .toLocaleDateString("en-GB")
+              .replace(/\//g, "-");
+
+          setDateLabel(
+            `${from} - ${to}`
+          );
+        }}
+      />
+
+    </div>
 
   )
-} */}
+}
+</div>
+
 
   <button
     onClick={() => {
 
       setDateRange("all");
-      setFromDate(null);
-      setToDate(null);
       setLeadStatus("all");
-setDateRange("all");
-
+      setDateLabel("Date Range");
+      setRanges([
+  {
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  },
+]);
       fetch("/api/leads")
         .then(res => res.json())
         .then(data => setLeads(data));
