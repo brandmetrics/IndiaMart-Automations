@@ -10,6 +10,8 @@ export type LeadRow = {
     phone: string;
     query_message: string;
     useful_lead_status: number;
+    source: string;
+    created_at: string;
     updated_at: string;
 };
 
@@ -103,7 +105,9 @@ export default function LeadsTable({
 
             <th>Useful Lead</th>
 
-            <th>Last Updated</th>
+            <th>Source</th>
+
+            <th>Created At</th>
 
           </tr>
 
@@ -153,19 +157,21 @@ export default function LeadsTable({
 
               </td>
 
+              <td>{lead.source}</td>
+
               <td>
-                {new Date(lead.updated_at).toLocaleString(
-  "en-IN",
-  {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }
-)}
-              </td>
+  {new Date(lead.created_at).toLocaleString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }
+  )}
+</td>
 
             </tr>
 
