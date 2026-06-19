@@ -19,7 +19,8 @@ import {
   FaFilter,
   FaCog,
   FaSignOutAlt,
-  FaBriefcase
+  FaBriefcase,
+  FaCommentDots
 } from "react-icons/fa";
 
 export default function DashboardLayout({
@@ -120,6 +121,14 @@ export default function DashboardLayout({
 >
   <FaFilter />
   Filters
+</Link>
+
+<Link 
+href= "/dashboard/quick-replies"
+className="flex item-center gap-3"
+>
+  <FaCommentDots/>
+  Quick Replies 
 </Link>
 
           {/* ADMIN ONLY */}
