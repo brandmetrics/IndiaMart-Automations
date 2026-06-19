@@ -235,7 +235,7 @@ const filteredLeads =
   onChange={(e) =>
     setLeadStatus(e.target.value)
   }
-  className="border px-4 py-2 rounded-lg text-black bg-white min-w-[180px]"
+  className="border px-4 py-3 rounded-lg text-black bg-white min-w-[180px]"
 >
   <option value="all">
     All Leads
@@ -276,7 +276,7 @@ const filteredLeads =
         absolute top-full mt-2 right-0
         bg-white border rounded-lg
         shadow-lg z-50
-        w-60
+        w-60 text-black
       "
     >
 
