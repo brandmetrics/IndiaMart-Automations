@@ -91,6 +91,7 @@ export default function LeadsTable({
     pageLength: 15,
     lengthChange: false,
     searching: false,
+     order: [[8, "desc"]],
   }}
       >
 

@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   );
 console.log("STATUS =", status);
   let query =
-    "SELECT * FROM leads";
+    "SELECT * FROM leads ";
 
   let params: any[] = [];
 
@@ -88,7 +88,7 @@ else if (status === "no") {
 }
 
   query +=
-    " ORDER BY id DESC";
+    " ORDER BY created_at DESC";
 
   const [rows]: any =
     await db.query(
