@@ -24,7 +24,7 @@ export default function LeadsPage() {
 const selectedRange = ranges[0];
 
     
-const [dateRange, setDateRange] = useState("all");
+const [dateRange, setDateRange] = useState("thisMonth");
 const today =
   new Date()
     .toLocaleDateString("en-GB")
@@ -128,6 +128,32 @@ else if (range === "30days") {
   );
 }
 
+else if (range === "thisMonth") {
+
+  const today = new Date();
+
+  const firstDay =
+    new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      1
+    );
+
+  const from =
+    firstDay
+      .toLocaleDateString("en-GB")
+      .replace(/\//g, "-");
+
+  const to =
+    today
+      .toLocaleDateString("en-GB")
+      .replace(/\//g, "-");
+
+  setDateLabel(
+    `${from} - ${to}`
+  );
+}
+
   else if (
     range === "custom"
   ) {
@@ -217,6 +243,10 @@ const filteredLeads =
         searchTerm.toLowerCase()
       )
   );
+
+  useEffect(() => {
+  updateDateLabel("thisMonth");
+}, []);
 
   return (
 
@@ -323,6 +353,17 @@ const filteredLeads =
       >
         Last 30 Days
       </div>
+
+      <div
+      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+  onClick={() => {
+    setDateRange("thisMonth");
+    updateDateLabel("thisMonth");
+    setShowMenu(false);
+  }}
+>
+  This Month
+</div>
 
       <div
         className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
