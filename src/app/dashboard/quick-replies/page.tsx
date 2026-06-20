@@ -47,11 +47,7 @@ const copyReply = async (text: string) => {
 
 const filteredReplies =
   replies.filter((reply) =>
-    reply.title
-      .toLowerCase()
-      .includes(
-        search.toLowerCase()
-      ) ||
+    
     reply.reply_text
       .toLowerCase()
       .includes(
@@ -105,11 +101,10 @@ const filteredReplies =
             className=" border-2 rounded-xl p-5 cursor-pointer hover:shadow-lg transition"
           >
 
-            <h2 className="font-bold text-lg">
-              {reply.title}
-            </h2>
 
-            <p className="mt-4">
+
+            <p 
+   className=" reply-text mt-4">
               {reply.reply_text}
             </p>
 
@@ -192,14 +187,7 @@ const filteredReplies =
               Add Reply
             </h2>
 
-            <input 
-            value={title}
-            onChange={(e) => 
-                setTitle(e.target.value)
-            }
-              placeholder="Reply Title"
-              className="border p-2 w-full mb-3"
-            />
+
 
             <textarea
             value={replyText}
@@ -216,7 +204,7 @@ const filteredReplies =
                 onClick={() => {
   setShowAddModal(false);
   setEditId(null);
-  setTitle("");
+
   setReplyText("");
 }}
                 className="px-4 py-2 border rounded text-black"
@@ -242,7 +230,7 @@ const filteredReplies =
           body:
             JSON.stringify({
               id: editId,
-              title,
+
               reply_text:
                 replyText,
             }),
@@ -267,7 +255,7 @@ const filteredReplies =
 
           body:
             JSON.stringify({
-              title,
+
               reply_text:
                 replyText,
             }),
@@ -284,7 +272,7 @@ const filteredReplies =
 
     setEditId(null);
 
-    setTitle("");
+
 
     setReplyText("");
 

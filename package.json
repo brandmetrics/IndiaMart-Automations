@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "bcryptjs": "^3.0.3",
     "cookie": "^1.1.1",
     "datatables.net-bs5": "^2.3.8",
