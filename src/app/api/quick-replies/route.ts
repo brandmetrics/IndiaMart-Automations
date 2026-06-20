@@ -16,7 +16,7 @@ export async function POST(
 ) {
 
   const {
-    title,
+
     reply_text,
   } = await request.json();
 
@@ -24,18 +24,15 @@ export async function POST(
     `
     INSERT INTO quick_replies
     (
-      title,
+
       reply_text
     )
     VALUES
     (
-      ?, ?
+      ?
     )
     `,
-    [
-      title,
-      reply_text,
-    ]
+    [ reply_text]
   );
 
   return NextResponse.json({
@@ -49,19 +46,19 @@ export async function PUT(
 ) {
 
   const {
-    id, title, reply_text,
+    id, reply_text,
   } = await request.json();
 
   await db.query(
     `
     UPDATE quick_replies
     SET
-      title = ?,
+      
       reply_text = ?
     WHERE id = ?
     `,
     [
-      title,
+      
       reply_text,
       id,
     ]
